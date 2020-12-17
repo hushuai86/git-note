@@ -1,0 +1,60 @@
+<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-43157b65-efce-45b6-8152-6c9cdc097731"></attachment><h3><strong>helm 添加 Repo 命令</strong></h3><pre class="ql-syntax" spellcheck="false">helm repo add accentrix http://192.168.118.219/nexus/repository/helm-release/ --username admin --password admin123
+</pre><p><br></p><h3>SIT部署</h3><pre class="ql-syntax" spellcheck="false">#ssh to 192.168.118.180
+
+cd /root/projects/ocean/
+
+#更新代码
+git pull&nbsp;
+
+#maven 打包
+mvn clean package -Dmaven.test.skip=true&nbsp;-Pnttca
+
+#进入你想要部署的project目录下
+例： cd&nbsp;&nbsp;kafka-connect
+#以下命令要在各个需要被部署的子模块的目录下运行
+
+#build docekr 镜像
+docker build -t&nbsp;device-service&nbsp;.
+#打tag，用于后面push到私有库
+docker tag device-service:latest 192.168.130.148:5000/operator-portal/device-service:latest
+
+#上面两步可以合并成一步
+docker build -t 192.168.130.148:5000/operator-portal/kafka-producer:latest .
+
+#docker build -t kafka-connect-sink .
+
+#登录私有库
+docker login -u admin -p admin123 192.168.130.148:5000
+
+#push 最新的镜像到私有库
+docker push 192.168.130.148:5000/operator-portal/kafka-producer:latest
+
+cd helm
+
+#打包helm
+helm package kafka-producer-chart/
+
+#把打包后的helm 包上传到 nexus
+curl -u admin:admin123 http://192.168.118.219/nexus/repository/helm-release/ --upload-file kafka-connect-sink-chart-0.1.0.tgz -v
+
+#更新 helm repository
+helm repo update
+
+#获取最后一次提交的commitId，后面有用到
+git log -1 --pretty=format:"%h"
+
+#uninstall 之前的 helm ,注意需要指定namespace ，uninstall之后 k8s会自动删除对应的deployment
+helm uninstall kafka-connect-sink -n ocean
+
+#install helm install之后 k8s会自动部署对应的deployment
+helm&nbsp;upgrade --install \
+&nbsp;&nbsp;&nbsp;&nbsp;--set env=sit \
+&nbsp;&nbsp;&nbsp;&nbsp;--set gitCommitId=14f837eb \
+&nbsp;&nbsp;&nbsp;&nbsp;--set imagePullSecrets[0].name=docker-registry \
+&nbsp;&nbsp;&nbsp;&nbsp;--set image.registry=192.168.130.148:5000 \
+&nbsp;&nbsp;&nbsp;&nbsp;--set image.namespace=operator-portal \
+&nbsp;&nbsp;&nbsp;&nbsp;--set service.name=kafka-connect-sink \
+&nbsp;&nbsp;&nbsp;&nbsp;--set service.version='latest' \
+&nbsp;&nbsp;&nbsp;&nbsp;-n ocean \
+&nbsp;&nbsp;kafka-connect-sink&nbsp;accentrix/kafka-connect-sink-chart
+</pre><p><br></p>
