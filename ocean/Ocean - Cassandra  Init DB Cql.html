@@ -1,1 +1,99 @@
-<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-f8cd06f8-5315-4b44-b247-b3912ba54078"></attachment><h1>Ocean - Cassandra&nbsp;Init DB CqlOcean - Cassandra&nbsp;Init DB Cql</h1><p><br></p><p>CREATE KEYSPACE ocean-maggy WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1};</p><p><br></p><p><span style="color: rgb(51, 51, 51);">use ocean;</span></p><p><br></p><p>drop table telemetry;</p><p>drop table telemetry_60s;</p><p>drop table telemetry_300s;</p><p>drop table telemetry_900s;</p><p>drop table telemetry_3600s;</p><p>drop table telemetry_86400s;</p><p>drop table error;</p><p><br></p><p>create table telemetry (</p><p>&nbsp;&nbsp;"messageId" text,</p><p>&nbsp;&nbsp;"agentId" text,</p><p>&nbsp;&nbsp;"deviceId" text,</p><p>&nbsp;&nbsp;"measurePoint" text,</p><p>&nbsp;&nbsp;"string_value" text,</p><p>&nbsp;&nbsp;"boolean_value" boolean,</p><p>&nbsp;&nbsp;"double_value" double,</p><p>&nbsp;&nbsp;"ts" timestamp,</p><p>&nbsp;&nbsp;PRIMARY KEY (("deviceId","measurePoint"), "ts")</p><p>)</p><p>WITH CLUSTERING ORDER BY ("ts" DESC);</p><p><br></p><p>create table telemetry_60s (</p><p>&nbsp;&nbsp;"deviceId" text,</p><p>&nbsp;&nbsp;"pointName" text,</p><p>&nbsp;&nbsp;"ts" timestamp,</p><p>"string_value" text,</p><p>&nbsp;&nbsp;"boolean_value" boolean,</p><p>&nbsp;&nbsp;"double_value" double,</p><p>&nbsp;&nbsp;PRIMARY KEY (("deviceId","pointName"), "ts")</p><p>)</p><p>WITH CLUSTERING ORDER BY ("ts" DESC);</p><p><br></p><p><br></p><p>create table telemetry_300s (</p><p>&nbsp;&nbsp;"deviceId" text,</p><p>&nbsp;&nbsp;"pointName" text,</p><p>&nbsp;&nbsp;"ts" timestamp,</p><p>&nbsp;&nbsp;"string_value" text,</p><p>&nbsp;&nbsp;"boolean_value" boolean,</p><p>&nbsp;&nbsp;"double_value" double,</p><p>&nbsp;&nbsp;PRIMARY KEY (("deviceId","pointName"), "ts")</p><p>)</p><p>WITH CLUSTERING ORDER BY ("ts" DESC);</p><p><br></p><p>create table telemetry_900s (</p><p>&nbsp;&nbsp;"deviceId" text,</p><p>&nbsp;&nbsp;"pointName" text,</p><p>&nbsp;&nbsp;"ts" timestamp,</p><p>"string_value" text,</p><p>&nbsp;&nbsp;"boolean_value" boolean,</p><p>&nbsp;&nbsp;"double_value" double,</p><p>&nbsp;&nbsp;PRIMARY KEY (("deviceId","pointName"), "ts")</p><p>)</p><p>WITH CLUSTERING ORDER BY ("ts" DESC);</p><p><br></p><p>create table telemetry_3600s (</p><p>&nbsp;&nbsp;"deviceId" text,</p><p>&nbsp;&nbsp;"pointName" text,</p><p>&nbsp;&nbsp;"ts" timestamp,</p><p>&nbsp;&nbsp;"string_value" text,</p><p>&nbsp;&nbsp;"boolean_value" boolean,</p><p>&nbsp;&nbsp;"double_value" double,</p><p>&nbsp;&nbsp;PRIMARY KEY (("deviceId","pointName"), "ts")</p><p>)</p><p>WITH CLUSTERING ORDER BY ("ts" DESC);</p><p><br></p><p>create table telemetry_86400s (</p><p>&nbsp;&nbsp;"deviceId" text,</p><p>&nbsp;&nbsp;"pointName" text,</p><p>&nbsp;&nbsp;"ts" timestamp,</p><p>&nbsp;&nbsp;"string_value" text,</p><p>&nbsp;&nbsp;"boolean_value" boolean,</p><p>&nbsp;&nbsp;"double_value" double,</p><p>&nbsp;&nbsp;PRIMARY KEY (("deviceId","pointName"), "ts")</p><p>)</p><p>WITH CLUSTERING ORDER BY ("ts" DESC);</p><p><br></p><p>create table error (</p><p>&nbsp;&nbsp;"messageId" text,</p><p>&nbsp;&nbsp;"errorMessage" text,</p><p>&nbsp;&nbsp;"ts" timestamp,</p><p>&nbsp;&nbsp;PRIMARY KEY ("messageId", "ts")</p><p>)</p><p>WITH CLUSTERING ORDER BY ("ts" DESC);</p><p><br></p><p><br></p><p>alter table telemetry with default_time_to_live=1209600;</p><p>alter table telemetry_60s with default_time_to_live=1209600;</p><p>alter table telemetry_300s with default_time_to_live=1209600;</p><p>alter table telemetry_900s with default_time_to_live=1209600;</p><p>alter table telemetry_3600s with default_time_to_live=1209600;</p><p>alter table telemetry_86400s with default_time_to_live=1209600;</p><p>alter table error with D=1209600;</p><p><br></p>
+<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-f8cd06f8-5315-4b44-b247-b3912ba54078"></attachment><h1>Ocean - Cassandra&nbsp;Init DB CqlOcean - Cassandra&nbsp;Init DB Cql</h1><pre class="ql-syntax" spellcheck="false">
+CREATE KEYSPACE ocean-maggy WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1};
+
+use ocean;
+
+drop table telemetry;
+drop table telemetry_60s;
+drop table telemetry_300s;
+drop table telemetry_900s;
+drop table telemetry_3600s;
+drop table telemetry_86400s;
+drop table error;
+
+create table telemetry (
+&nbsp;&nbsp;"messageId" text,
+&nbsp;&nbsp;"agentId" text,
+&nbsp;&nbsp;"deviceId" text,
+&nbsp;&nbsp;"measurePoint" text,
+&nbsp;&nbsp;"string_value" text,
+&nbsp;&nbsp;"boolean_value" boolean,
+&nbsp;&nbsp;"double_value" double,
+&nbsp;&nbsp;"ts" timestamp,
+&nbsp;&nbsp;PRIMARY KEY (("deviceId","measurePoint"), "ts")
+)
+WITH CLUSTERING ORDER BY ("ts" DESC);
+
+create table telemetry_60s (
+&nbsp;&nbsp;"deviceId" text,
+&nbsp;&nbsp;"pointName" text,
+&nbsp;&nbsp;"ts" timestamp,
+"string_value" text,
+&nbsp;&nbsp;"boolean_value" boolean,
+&nbsp;&nbsp;"double_value" double,
+&nbsp;&nbsp;PRIMARY KEY (("deviceId","pointName"), "ts")
+)
+WITH CLUSTERING ORDER BY ("ts" DESC);
+
+
+create table telemetry_300s (
+&nbsp;&nbsp;"deviceId" text,
+&nbsp;&nbsp;"pointName" text,
+&nbsp;&nbsp;"ts" timestamp,
+&nbsp;&nbsp;"string_value" text,
+&nbsp;&nbsp;"boolean_value" boolean,
+&nbsp;&nbsp;"double_value" double,
+&nbsp;&nbsp;PRIMARY KEY (("deviceId","pointName"), "ts")
+)
+WITH CLUSTERING ORDER BY ("ts" DESC);
+
+create table telemetry_900s (
+&nbsp;&nbsp;"deviceId" text,
+&nbsp;&nbsp;"pointName" text,
+&nbsp;&nbsp;"ts" timestamp,
+"string_value" text,
+&nbsp;&nbsp;"boolean_value" boolean,
+&nbsp;&nbsp;"double_value" double,
+&nbsp;&nbsp;PRIMARY KEY (("deviceId","pointName"), "ts")
+)
+WITH CLUSTERING ORDER BY ("ts" DESC);
+
+create table telemetry_3600s (
+&nbsp;&nbsp;"deviceId" text,
+&nbsp;&nbsp;"pointName" text,
+&nbsp;&nbsp;"ts" timestamp,
+&nbsp;&nbsp;"string_value" text,
+&nbsp;&nbsp;"boolean_value" boolean,
+&nbsp;&nbsp;"double_value" double,
+&nbsp;&nbsp;PRIMARY KEY (("deviceId","pointName"), "ts")
+)
+WITH CLUSTERING ORDER BY ("ts" DESC);
+
+create table telemetry_86400s (
+&nbsp;&nbsp;"deviceId" text,
+&nbsp;&nbsp;"pointName" text,
+&nbsp;&nbsp;"ts" timestamp,
+&nbsp;&nbsp;"string_value" text,
+&nbsp;&nbsp;"boolean_value" boolean,
+&nbsp;&nbsp;"double_value" double,
+&nbsp;&nbsp;PRIMARY KEY (("deviceId","pointName"), "ts")
+)
+WITH CLUSTERING ORDER BY ("ts" DESC);
+
+create table error (
+&nbsp;&nbsp;"messageId" text,
+&nbsp;&nbsp;"errorMessage" text,
+&nbsp;&nbsp;"ts" timestamp,
+&nbsp;&nbsp;PRIMARY KEY ("messageId", "ts")
+)
+WITH CLUSTERING ORDER BY ("ts" DESC);
+
+
+alter table telemetry with default_time_to_live=1209600;
+alter table telemetry_60s with default_time_to_live=1209600;
+alter table telemetry_300s with default_time_to_live=1209600;
+alter table telemetry_900s with default_time_to_live=1209600;
+alter table telemetry_3600s with default_time_to_live=1209600;
+alter table telemetry_86400s with default_time_to_live=1209600;
+alter table error with D=1209600;
+</pre><p><br></p>

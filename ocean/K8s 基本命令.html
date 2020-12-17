@@ -13,6 +13,6 @@
 kubectl -n ocean-operator-portal-staging expose svc kafka-producer --name=temp-kafka-producer&nbsp;--type=NodePort
 
 kubectl -n ocean-infra-staging expose svc&nbsp;kafka --name=temp-kafka-nodeport&nbsp;--type=NodePort
-</pre><p><br></p><p>当某个pod迟迟无法创建时，用命令查看它的描述信息</p><pre class="ql-syntax" spellcheck="false">kubectl describe pod XXXX
-</pre><p><br></p><p>查看创建的Replication Controller</p><pre class="ql-syntax" spellcheck="false">kubectl get rc
+</pre><h3><br></h3><h3>当某个pod迟迟无法创建时，用命令查看它的描述信息</h3><pre class="ql-syntax" spellcheck="false">kubectl describe pod XXXX
+</pre><h3><br></h3><h3>查看创建的Replication Controller</h3><pre class="ql-syntax" spellcheck="false">kubectl get rc
 </pre><p><br></p>
